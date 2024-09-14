@@ -81,8 +81,12 @@ router.get("/generateWidgetSession", (req, res) => {
 
 router.get("/getData", (req, res) => {
   const user_id = req.query.user_id;
+  const currentDate = new Date();
+  const oneWeekBefore = new Date();
+  // Subtract 7 days from the current date
+  oneWeekBefore.setDate(currentDate.getDate() - 7);
   terra
-  .getSleep({ userId: user_id, startDate: new Date("2023-03-29"), endDate: new Date("2024-03-29"), toWebhook: true })
+  .getSleep({ userId: user_id, startDate: oneWeekBefore, endDate: currentDate, toWebhook: false })
   .then((p) => res.send(p))
   .catch((e) => console.log(e.status, e.message));
 });

@@ -17,12 +17,9 @@ const ConnectPage = () => {
 
   return (
     <div>
-      <h1>Query Parameters Example</h1>
-      <p>Name from URL: {user_id}</p>
       <button
       onClick={() => {
         get("/api/getData", {"user_id": user_id}).then((res) => {
-          console.log("HI");
           console.log(res);
         });
       }}
