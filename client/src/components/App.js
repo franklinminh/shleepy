@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
+import MainPage from "./pages/MainPage.js";
 
 import "../utilities.css";
 
@@ -47,7 +48,8 @@ const App = () => {
       <Route
         path="/"
         element={
-          <Skeleton
+          <MainPage
+            // <Skeleton
             path="/"
             handleLogin={handleLogin}
             handleLogout={handleLogout}

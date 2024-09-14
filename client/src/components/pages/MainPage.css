@@ -1,0 +1,27 @@
+.background-purple {
+  display: flex;
+  background-color: var(--purple);
+  flex-direction: column;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.sky-flex {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.grass-flex {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
