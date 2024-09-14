@@ -15,6 +15,15 @@ const User = require("./models/user");
 // import authentication library
 const auth = require("./auth");
 
+// Importing the API and instantiating the client using your keys
+const { default: Terra } = require("terra-api");
+
+const API_KEY = "<Your API Key>"
+const DEV_ID = "<Your Dev Id>"
+const SECRET = "<Your Signing secret>"
+
+
+const terra = new Terra("DEV_ID", "API_KEY", "SECRET");
 // api endpoints: all these paths will be prefixed with "/api/"
 const router = express.Router();
 
