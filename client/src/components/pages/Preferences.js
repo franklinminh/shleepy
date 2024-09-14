@@ -83,7 +83,7 @@ const Preferences = () => {
                 }}
               />
             }
-            label="Anxiety/Nervousness"
+            label="Anxiety"
             sx={{
               fontFamily: "Montserrat, sans-serif",
               color: switches.anxiety ? "var(--yellow)" : "white",
