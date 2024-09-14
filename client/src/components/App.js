@@ -64,7 +64,7 @@ const App = () => {
       />
       <Route path="/preferences" element={<Preferences />} />
       <Route path="*" element={<NotFound />} />
-      <Route path="/" element={<TestPage />} />
+      <Route path="/test" element={<TestPage />} />
       <Route path="/success" element={<ConnectPage />} />
     </Routes>
   );
