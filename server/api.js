@@ -65,12 +65,12 @@ router.get("/getUsers", (req, res) => {
 });
 
 router.get("/generateWidgetSession", (req, res) => {
-  // user_id appended as query parameters
+  const referenceName = req.query.reference;
   terra
   .generateWidgetSession({
-    referenceID: "robinl",
+    referenceID: referenceName,
     providers: ["MYFITNESSPAL", "APPLE", "GARMIN"],
-    authSuccessRedirectUrl: "http://localhost:5050/",
+    authSuccessRedirectUrl: "http://localhost:5050/success",
     authFailureRedirectUrl: "failure.com",
     language: 'en'
   })
@@ -80,10 +80,10 @@ router.get("/generateWidgetSession", (req, res) => {
 });
 
 router.get("/getData", (req, res) => {
-  // user ID from generated widget session
+  const user_id = req.query.user_id;
   terra
-  .getSleep({ userId: "54e13039-bed4-4a4e-8adc-1b58554d8d6c", startDate: new Date("2023-03-29"), endDate: new Date("2024-03-29"), toWebhook: true })
-  .then((p) => console.log(p))
+  .getSleep({ userId: user_id, startDate: new Date("2023-03-29"), endDate: new Date("2024-03-29"), toWebhook: true })
+  .then((p) => res.send(p))
   .catch((e) => console.log(e.status, e.message));
 });
 
