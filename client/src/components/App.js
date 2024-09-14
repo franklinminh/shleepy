@@ -5,6 +5,9 @@ import jwt_decode from "jwt-decode";
 
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
+import MainPage from "./pages/MainPage.js";
+import LandingPage from "./pages/LandingPage.js";
+import Preferences from "./pages/Preferences.js";
 import TestPage from "./pages/TestPage.js";
 import ConnectPage from "./pages/ConnectPage.js";
 
@@ -18,45 +21,48 @@ import { get, post } from "../utilities";
  * Define the "App" component
  */
 const App = () => {
-  const [userId, setUserId] = useState(undefined);
+  // const [userId, setUserId] = useState(undefined);
 
-  useEffect(() => {
-    get("/api/whoami").then((user) => {
-      if (user._id) {
-        // they are registed in the database, and currently logged in.
-        setUserId(user._id);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   get("/api/whoami").then((user) => {
+  //     if (user._id) {
+  //       // they are registed in the database, and currently logged in.
+  //       setUserId(user._id);
+  //     }
+  //   });
+  // }, []);
 
-  const handleLogin = (credentialResponse) => {
-    const userToken = credentialResponse.credential;
-    const decodedCredential = jwt_decode(userToken);
-    console.log(`Logged in as ${decodedCredential.name}`);
-    post("/api/login", { token: userToken }).then((user) => {
-      setUserId(user._id);
-      post("/api/initsocket", { socketid: socket.id });
-    });
-  };
+  // const handleLogin = (credentialResponse) => {
+  //   const userToken = credentialResponse.credential;
+  //   const decodedCredential = jwt_decode(userToken);
+  //   console.log(`Logged in as ${decodedCredential.name}`);
+  //   post("/api/login", { token: userToken }).then((user) => {
+  //     setUserId(user._id);
+  //     post("/api/initsocket", { socketid: socket.id });
+  //   });
+  // };
 
-  const handleLogout = () => {
-    setUserId(undefined);
-    post("/api/logout");
-  };
+  // const handleLogout = () => {
+  //   setUserId(undefined);
+  //   post("/api/logout");
+  // };
 
   return (
     <Routes>
-      {/* <Route
-        path="/"
+      <Route path="/" element={<LandingPage />} />
+      <Route
+        path="/shleep"
         element={
-          <Skeleton
-            path="/"
-            handleLogin={handleLogin}
-            handleLogout={handleLogout}
-            userId={userId}
+          <MainPage
+          // <Skeleton
+          // path="/"
+          // handleLogin={handleLogin}
+          // handleLogout={handleLogout}
+          // userId={userId}
           />
         }
-      /> */}
+      />
+      <Route path="/preferences" element={<Preferences />} />
       <Route path="*" element={<NotFound />} />
       <Route path="/" element={<TestPage />} />
       <Route path="/success" element={<ConnectPage />} />

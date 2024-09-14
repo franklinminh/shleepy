@@ -15,7 +15,7 @@
 */
 
 /* TODO: REPLACE WITH YOUR OWN FONT! */
-@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
   --primary: #396dff;
@@ -24,6 +24,9 @@
   --medgrey: #e0e0e0;
   --grey: #f7f7f7;
   --white: #fff;
+  --purple: #6a4e85;
+  --green: #4c7f58;
+  --yellow: #ffff3d;
 
   --xs: 4px;
   --s: 8px;
@@ -87,4 +90,28 @@ form {
 
 .u-link:hover {
   color: var(--primary--dim);
+}
+
+.u-fontMontserrat {
+  font-family: "Montserrat", sans-serif;
+}
+
+.u-textWhite {
+  color: var(--white);
+}
+
+.u-fontSemibold {
+  font-weight: 600;
+}
+
+.u-fontRegular {
+  font-weight: 400;
+}
+
+.u-noMargin {
+  margin: 0;
+}
+
+.u-smallMarginTop {
+  margin-top: 10px;
 }
