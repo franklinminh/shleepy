@@ -19,8 +19,24 @@ const ConnectPage = () => {
     <div>
       <button
       onClick={() => {
+        // get data
         get("/api/getData", {"user_id": user_id}).then((res) => {
           console.log(res);
+          // process data, get parameters for generation
+          get("/api/requestSong", 
+              {
+                "topic":"A song about water bottles",
+                "tags": "pop"
+              }).then((res) => {
+                console.log(res);
+                get("/api/getSong", 
+                  {
+                    "id": res.id
+                  }).then((res) => {
+                    console.log("GET SONG");
+                    console.log(res);
+                  })
+              })
         });
       }}
     > 

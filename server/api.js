@@ -91,7 +91,10 @@ router.get("/getData", (req, res) => {
   .catch((e) => console.log(e.status, e.message));
 });
 
+// Call this after processing, and getting the correct topic and tags
 router.get("/requestSong", async (req, res) => {
+  const topic = req.query.topic;
+  const tags = req.query.tags;
   const response = await fetch('https://studio-api.suno.ai/api/external/generate/', {
     method: 'POST',
     headers: {
@@ -112,24 +115,19 @@ router.get("/requestSong", async (req, res) => {
       'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
     },
     body: JSON.stringify({
-      topic: "A song about traveling on Christmas",
-      tags: "pop"
+      topic: topic,
+      tags: tags
     })
   });
   const data = await response.json();
   res.send(data);
 });
 
-router.get("/getData", (req, res) => {
-  // user ID from generated widget session
-  terra
-  .getSleep({ userId: "54e13039-bed4-4a4e-8adc-1b58554d8d6c", startDate: new Date("2023-03-29"), endDate: new Date("2024-03-29"), toWebhook: true })
-  .then((p) => console.log(p))
-  .catch((e) => console.log(e.status, e.message));
-});
-
+// Call this after request song
 router.get("/getSong", async (req, res) => {
-  const response = await fetch('https://studio-api.suno.ai/api/external/clips/?ids=29a7c29d-cd30-4a9c-be85-0aa74091b380', {
+  const id = req.query.id;
+  const url = 'https://studio-api.suno.ai/api/external/clips/?ids=' + id;
+  const response = await fetch(url, {
     method: 'GET',
     headers: {
       'accept': '/',
