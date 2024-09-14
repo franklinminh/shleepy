@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
+import TestPage from "./pages/TestPage.js";
 
 import "../utilities.css";
 
@@ -44,7 +45,7 @@ const App = () => {
 
   return (
     <Routes>
-      <Route
+      {/* <Route
         path="/"
         element={
           <Skeleton
@@ -54,8 +55,9 @@ const App = () => {
             userId={userId}
           />
         }
-      />
+      /> */}
       <Route path="*" element={<NotFound />} />
+      <Route path="/" element={<TestPage />} />
     </Routes>
   );
 };
