@@ -1,3 +1,12 @@
+@keyframes moveStars {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -100vw 0;
+  }
+}
+
 .sky-landing-page-flex {
   flex: 2;
   display: flex;
@@ -5,4 +14,7 @@
   align-items: center;
   position: relative;
   flex-direction: column;
+  background-repeat: repeat-x;
+  background-size: 200vw 100%;
+  animation: moveStars 120s linear infinite;
 }

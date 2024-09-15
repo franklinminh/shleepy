@@ -1,14 +1,24 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 import "./MainPage.css";
 import GrassImage from "../modules/Grass.svg";
 import StarsImage from "../modules/Stars.svg";
 import MoonImage from "../modules/Moon.svg";
+// import SheepGIF from "../modules/SheepGIF.gif";
+import SheepGIF from "../modules/SlowerSheep.gif";
+import FenceImage from "../modules/Fence.svg";
 
 const MainPage = () => {
   const navigate = useNavigate();
+
+  const fenceVariants = {
+    animate: {
+      x: ["100vw", "-100vw"],
+    },
+  };
 
   return (
     <div className="background-purple">
@@ -56,7 +66,24 @@ const MainPage = () => {
           backgroundPosition: "top center",
           backgroundRepeat: "no-repeat",
         }}
-      ></div>
+      >
+        <img src={SheepGIF} alt="Sheep" className="sheep-gif" />
+
+        <motion.img
+          src={FenceImage}
+          alt="Fence"
+          className="fence"
+          variants={fenceVariants}
+          animate="animate"
+          transition={{
+            repeat: Infinity,
+            duration: 2.86,
+            delay: 0,
+            ease: "linear",
+          }}
+          style={{ position: "absolute", bottom: 0, width: "150px" }}
+        />
+      </div>
     </div>
   );
 };
