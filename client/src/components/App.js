@@ -10,6 +10,7 @@ import LandingPage from "./pages/LandingPage.js";
 import Preferences from "./pages/Preferences.js";
 import TestPage from "./pages/TestPage.js";
 import ConnectPage from "./pages/ConnectPage.js";
+import LoadingPage from "./pages/LoadingPage.js";
 
 import "../utilities.css";
 
@@ -66,6 +67,7 @@ const App = () => {
       <Route path="*" element={<NotFound />} />
       <Route path="/test" element={<TestPage />} />
       <Route path="/success" element={<ConnectPage />} />
+      <Route path="/loading" element={<LoadingPage />} />
     </Routes>
   );
 };

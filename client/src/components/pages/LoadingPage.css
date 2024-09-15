@@ -1,0 +1,54 @@
+@keyframes loadingZs {
+  0%,
+  20% {
+    opacity: 0;
+  }
+  30%,
+  50% {
+    opacity: 1;
+  }
+  55%,
+  75% {
+    opacity: 1;
+  }
+  80%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.z-animation-wrapper {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.animate-z {
+  opacity: 0;
+  animation: loadingZs 2s linear infinite;
+}
+
+.small-z {
+  font-size: 1.5rem;
+}
+
+.medium-z {
+  font-size: 2.5rem;
+}
+
+.large-z {
+  font-size: 3.5rem;
+}
+
+.delay-0 {
+  animation-delay: 0s;
+}
+
+.delay-1 {
+  animation-delay: 0.5s;
+}
+
+.delay-2 {
+  animation-delay: 1s;
+}
