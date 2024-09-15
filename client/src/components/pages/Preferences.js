@@ -133,7 +133,7 @@ const Preferences = () => {
             navigate("/shleep", { state: { switches } });
           }}
         >
-          Generate Custom Playlist
+          Start Shleeping
         </Button>
       </div>
     </div>

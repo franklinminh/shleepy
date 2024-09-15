@@ -21,7 +21,7 @@ const LandingPage = () => {
       >
         <h1 className="u-fontMontserrat u-fontSemibold u-textWhite u-noMargin">shleepy</h1>
         <h3 className="u-fontMontserrat u-fontRegular u-textWhite u-smallMarginTop">
-          no more counting sheep, just sleep to the beat ♬
+          no more counting sheep, just shleep to the beat ♬
         </h3>
         <Button
           variant="contained"
