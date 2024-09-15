@@ -3,11 +3,9 @@ import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-
 import ListItemText from "@mui/material/ListItemText";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-
 import "./MainPage.css";
 import GrassImage from "../modules/Grass.svg";
 import StarsImage from "../modules/Stars.svg";
@@ -16,6 +14,7 @@ import SheepGIF from "../modules/SlowerSheep.gif";
 import FenceImage from "../modules/Fence.svg";
 import SleepDataChart from "../modules/SleepDataChart";
 
+// Conversion from stage data to human-readable labels
 function sleepConversion(value) {
   const stageLabels = {
     1: "Awake",
@@ -29,17 +28,12 @@ function sleepConversion(value) {
 const MainPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const audioRef = useRef(null);
-
   const curIndex = useRef(1);
-
   const songQueue = location.state.songQueue;
-
   const sleepData = location.state.sleepData;
 
   const [sleepState, setSleepState] = useState(sleepConversion(sleepData[0].stage));
-
   const [currentTrack, setCurrentTrack] = useState(songQueue[0]);
 
   useEffect(() => {
@@ -59,6 +53,7 @@ const MainPage = () => {
       console.log(sleepConversion(sleepData[curIndex.current].stage));
       setSleepState(sleepConversion(sleepData[curIndex.current].stage));
       curIndex.current = curIndex.current + 1;
+      // 10s for demonstration purposes
     }, 10000);
 
     return () => clearInterval(trackChangeInterval);
@@ -73,6 +68,7 @@ const MainPage = () => {
     }
   }, [currentTrack]);
 
+  // sliding coordinates for fence
   const fenceVariants = {
     animate: {
       x: ["100vw", "-100vw"],
@@ -92,13 +88,11 @@ const MainPage = () => {
       >
         <div className="sky-left-flex">
           <img src={MoonImage} alt="Moon" className="moon-image" />
-
-          {/* Centered Title and Scrollable Song Queue */}
           <div
             style={{
               marginTop: "0px",
               width: "300px",
-              textAlign: "center", // Center the title and list
+              textAlign: "center",
               color: "white",
               fontFamily: "Montserrat, sans-serif",
             }}
@@ -107,9 +101,9 @@ const MainPage = () => {
               queue
             </h3>
             <List
-              className="scrollable-list" // Apply the class here
+              className="scrollable-list"
               sx={{
-                height: "150px", // Set fixed height for scrolling
+                height: "150px",
                 overflowY: "scroll", // Make it scrollable
                 backgroundColor: "rgba(255, 255, 255, 0.1)", // Slight transparent background
                 borderRadius: "10px",
@@ -120,20 +114,17 @@ const MainPage = () => {
                 <ListItem
                   key={index}
                   sx={{
-                    padding: "3px 0", // Reduce padding to decrease vertical spacing
+                    padding: "1px 0",
                     fontFamily: "Montserrat, sans-serif",
-                    fontSize: "0.2rem", // Smaller font size (14px)
-                    marginBottom: "0px", // Reduce the margin between list items
+                    fontSize: "0.2rem",
+                    marginBottom: "0px",
                   }}
                 >
-                  {/* Star bullet or numbering */}
                   <span
                     style={{ marginRight: "10px", color: "var(--yellow)", fontSize: "0.875rem" }}
                   >
                     ★
                   </span>
-
-                  {/* Song Name as a Hyperlink */}
                   <a
                     href={song}
                     target="_blank"
@@ -142,14 +133,12 @@ const MainPage = () => {
                   >
                     <ListItemText primary={song} />
                   </a>
-
-                  {/* Open in new tab icon as a clickable link */}
                   <a href={song} target="_blank" rel="noopener noreferrer">
                     <OpenInNewIcon
                       sx={{
-                        color: "var(--yellow)", // Adjust color of the icon
-                        marginLeft: "10px", // Add some space before the icon
-                        fontSize: "1.2rem", // Adjust size of the icon
+                        color: "var(--yellow)",
+                        marginLeft: "10px",
+                        fontSize: "1.2rem",
                       }}
                     />
                   </a>
@@ -207,7 +196,6 @@ const MainPage = () => {
         }}
       >
         <img src={SheepGIF} alt="Sheep" className="sheep-gif" />
-
         <motion.img
           src={FenceImage}
           alt="Fence"

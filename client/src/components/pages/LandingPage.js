@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Button, TextField } from "@mui/material";
+import React, { useState } from "react";
+import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
+import { get } from "../../utilities.js";
+import "../../utilities.css";
 import "./LandingPage.css";
+
 import StarsImage from "../modules/Stars.svg";
 
-import { get } from "../../utilities.js";
-
-import "../../utilities.css";
-
 const LandingPage = () => {
-  const navigate = useNavigate();
   const [referenceName, setReferenceName] = useState("");
   return (
     <div className="background-purple">

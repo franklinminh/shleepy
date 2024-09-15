@@ -1,12 +1,3 @@
-/*
-|--------------------------------------------------------------------------
-| api.js -- server routes
-|--------------------------------------------------------------------------
-|
-| This file defines the routes for your server.
-|
-*/
-
 const API_KEY = "C-vkcU6_0jq2UjpPhOwPAn3s2QTqu60k";
 const DEV_ID = "4actk-robinl21mitedu-testing-zziD4s3W7V";
 const SECRET = "aa24214b6dc9365a365faa07436bf40329dfc0320374dcc6";

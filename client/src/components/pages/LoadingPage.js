@@ -1,19 +1,17 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, { useEffect } from "react";
 import StarsImage from "../modules/Stars.svg";
-import {useLocation, useNavigate} from 'react-router-dom';
+import { useLocation, useNavigate } from "react-router-dom";
 import "../../utilities.css";
 import "./LoadingPage.css";
-
-import {run_processing, generateMusicPrompts} from "./sleep-data-processing.js";
-import {requestSong} from "./parallel_song_gen.js";
+import { run_processing, generateMusicPrompts } from "./sleep-data-processing.js";
+import { requestSong } from "./parallel_song_gen.js";
 import { get } from "../../utilities.js";
-
 
 const LoadingPage = () => {
   const location = useLocation();
   const user_id = location.state.user_id;
   const user_sound = location.state.userSound;
-  const songQueue = []
+  const songQueue = [];
   var simulation;
 
   console.log("USER SOUND", user_sound);
@@ -26,22 +24,20 @@ const LoadingPage = () => {
         console.log(res);
         simulation = run_processing(res);
         console.log("Simulation", simulation);
-        // TODO: process data, get parameters for generation. also use switches state
         prompts = generateMusicPrompts(simulation);
       });
       const songPromises = prompts.map((prompt, index) => requestSong(prompt));
       // Iterate through the prompts and request songs
       const songUrls = await Promise.all(songPromises);
       return songUrls;
-    }
+    };
     fetchSongs().then((res) => {
       for (const song of res) {
         songQueue.push(song);
         console.log(songQueue);
       }
-      navigate("/shleep", {state: {songQueue: songQueue, sleepData: simulation}});
+      navigate("/shleep", { state: { songQueue: songQueue, sleepData: simulation } });
     });
-
   }, []);
   return (
     <div className="background-purple">
@@ -54,8 +50,6 @@ const LoadingPage = () => {
           backgroundRepeat: "repeat-x",
         }}
       >
-
-        
         <h1 className="u-fontMontserrat u-fontSemibold u-textWhite u-noMargin">
           generating content...
         </h1>
