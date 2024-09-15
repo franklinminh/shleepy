@@ -1,9 +1,9 @@
 @keyframes moveStars {
   from {
-    background-position: 0 0; /* Start at the original position */
+    background-position: 0 0;
   }
   to {
-    background-position: -100vw 0; /* Move the stars by exactly one screen width */
+    background-position: -100vw 0;
   }
 }
 
@@ -22,9 +22,9 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
-  background-repeat: repeat-x; /* Repeat stars horizontally */
-  background-size: 200vw 100%; /* Double the background width to allow smooth movement */
-  animation: moveStars 120s linear infinite; /* Slower animation, move 100vw over 120 seconds */
+  background-repeat: repeat-x;
+  background-size: 200vw 100%;
+  animation: moveStars 120s linear infinite;
 }
 
 .sky-left-flex,
