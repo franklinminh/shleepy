@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from "react";
+import React, {useRef, useEffect, useState} from "react";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -14,20 +14,41 @@ import FenceImage from "../modules/Fence.svg";
 
 const MainPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
-  console.log(location.state?.song);
-  // const audioRef = useRef(null);
+  // location.state.song = "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3";
 
-  // Play the audio when the component mounts
-  // useEffect(() => {
-  //   if (audioRef.current) {
-  //     audioRef.current.muted = true;
-  //     audioRef.current.play().catch((error) => {
-  //         console.log("Autoplay failed due to browser restrictions:", error);
-  //     });
-  // }
-  // }, []);
+  const audioRef = useRef(null);
+
+  const [currentTrack, setCurrentTrack]= useState("");
+  
+  const crazy = useRef(true);
+
+  // Change the audio track every 10 seconds
+  useEffect(() => {
+    const trackChangeInterval = setInterval(() => {
+      crazy.current = !(crazy.current)
+      setCurrentTrack((prevTrack) => {
+        const newTrack = crazy.current
+          ? "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3"
+          : "https://cdn1.suno.ai/d32646c9-a462-4b2c-a81b-61b54489efad.mp3";
+        console.log("SWAP", newTrack, crazy);
+        return newTrack; // Return the updated track
+      });
+    }, 10000);
+
+    return () => clearInterval(trackChangeInterval); // Clear interval on unmount
+  }, []);
+
+  ///Play the audio when the component mounts
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.load();
+      audioRef.current.play().catch((error) => {
+          console.log("Autoplay failed due to browser restrictions:", error);
+      });
+  }
+  }, [currentTrack]);
 
   const fenceVariants = {
     animate: {
@@ -100,8 +121,8 @@ const MainPage = () => {
           style={{ position: "absolute", bottom: 0, width: "150px" }}
         />
       </div>
-      <audio autoPlay loop>
-        <source src={location.state?.song} type="audio/mpeg"/>
+      <audio autoPlay loop controls ref ={audioRef}>
+        <source src={currentTrack} type="audio/mpeg"/>
       </audio>
     </div>
   );

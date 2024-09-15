@@ -1,5 +1,5 @@
 function parseSleepStagesWithDurations(jsonData) {
-  const nightsData = jsonData.map((night) => {
+  const nightsData = jsonData["data"].map((night) => {
     const samples = night.sleep_durations_data.hypnogram_samples;
     const stages = [];
     const durations = [];
@@ -186,7 +186,7 @@ function simulateSleepStagesWithDurations(startStage, markovModel, steps) {
   return predictedStages;
 }
 
-function run_processing(jsonData) {
+export function run_processing(jsonData) {
   const nightsData = parseSleepStagesWithDurations(jsonData);
   const { transitionCounts, totalCounts, stageDurations } =
     countTransitionsAndDurationsPerNight(nightsData);

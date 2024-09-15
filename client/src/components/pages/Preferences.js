@@ -7,6 +7,8 @@ import { get } from "../../utilities.js";
 import "./Preferences.css";
 import StarsImage from "../modules/Stars.svg";
 
+import {run_processing} from "./sleep-data-processing.js";
+
 const Preferences = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
@@ -136,11 +138,13 @@ const Preferences = () => {
             // get data
             get("/api/getData", {"user_id": user_id}).then((res) => {
               console.log(res);
+              const simulation = run_processing(res);
+              console.log(simulation);
               // TODO: process data, get parameters for generation. also use switches state
               get("/api/requestSong", 
                   {
-                    "topic":"A peaceful Minecraft song for sleeping with no vocals",
-                    "tags": "ambient, instrumental"
+                    "topic":"Crazy hyperpop song",
+                    "tags": "EDM, pop"
                   }).then((res) => {
                     const intervalId = setInterval(() => {
                       get("/api/getSong", 

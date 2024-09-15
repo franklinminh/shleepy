@@ -7,8 +7,6 @@
 |
 */
 
-import { run_processing } from "sleep-data-processing";
-
 const API_KEY = "C-vkcU6_0jq2UjpPhOwPAn3s2QTqu60k";
 const DEV_ID = "4actk-robinl21mitedu-testing-zziD4s3W7V";
 const SECRET = "aa24214b6dc9365a365faa07436bf40329dfc0320374dcc6";
@@ -88,11 +86,10 @@ router.get("/getData", (req, res) => {
   const oneWeekBefore = new Date();
   // Subtract 7 days from the current date
   oneWeekBefore.setDate(currentDate.getDate() - 7);
-  // terra
-  // .getSleep({ userId: user_id, startDate: oneWeekBefore, endDate: currentDate, toWebhook: false })
-  // .then((p) => res.send(p))
-  // .catch((e) => console.log(e.status, e.message));
-  res.send({});
+  terra
+  .getSleep({ userId: user_id, startDate: oneWeekBefore, endDate: currentDate, toWebhook: false })
+  .then((p) => res.send(p))
+  .catch((e) => console.log(e.status, e.message));
 });
 
 // Call this after processing, and getting the correct topic and tags
