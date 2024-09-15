@@ -13,8 +13,8 @@ import {
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip);
 
 const SleepDataChart = ({ sleepData }) => {
-  const minToHours = (minutes) => {
-    return (minutes / 60).toFixed(2);
+  const secondsToHours = (seconds) => {
+    return (seconds / 3600).toFixed(2); // Convert seconds to hours
   };
 
   const cumulativeTime = sleepData.reduce((acc, data, index) => {
@@ -23,7 +23,7 @@ const SleepDataChart = ({ sleepData }) => {
     return acc;
   }, []);
 
-  const timePoints = cumulativeTime.map((data) => minToHours(data.time));
+  const timePoints = cumulativeTime.map((data) => secondsToHours(data.time)); // Convert cumulative time from seconds to hours
 
   const stages = cumulativeTime.map((data) => {
     if (data.stage === 1) return 1;
@@ -34,7 +34,7 @@ const SleepDataChart = ({ sleepData }) => {
     labels: timePoints,
     datasets: [
       {
-        label: "Sleep Stage Progression",
+        label: "Sleep Pattern Simulation",
         data: stages,
         borderColor: "rgba(255, 255, 0, 1)",
         backgroundColor: "transparent",
@@ -58,7 +58,7 @@ const SleepDataChart = ({ sleepData }) => {
       },
       title: {
         display: true,
-        text: "Sleep Stage Progression",
+        text: "Sleep Pattern Simulation",
         color: "rgba(255, 255, 0, 1)",
         font: {
           family: "Montserrat",

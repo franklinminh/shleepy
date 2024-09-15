@@ -102,6 +102,12 @@ const MainPage = () => {
           >
             End Session
           </Button>
+          <h4
+            className="u-fontMontserrat u-fontSemibold u-textYellow u-noMargins"
+            style={{ marginTop: "7px" }}
+          >
+            currently simulating: awake
+          </h4>
         </div>
       </div>
       <div

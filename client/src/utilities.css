@@ -119,3 +119,7 @@ form {
 .u-smallMarginBottom {
   margin-bottom: 10px;
 }
+
+.u-textYellow {
+  color: var(--yellow);
+}
