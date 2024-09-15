@@ -7,13 +7,18 @@ import { useLocation } from 'react-router-dom';
 import { TextField, Button, Typography, Box } from "@mui/material";
 
 import { get } from "../../utilities.js";
+
+import { useNavigate } from 'react-router-dom';
+
 const ConnectPage = () => {
   // Get url
-  const location = useLocation();
+  const navigate = useNavigate();
 
   const queryParams = new URLSearchParams(location.search);
 
   const user_id = queryParams.get('user_id');
+
+
 
   return (
     <div>
@@ -28,18 +33,28 @@ const ConnectPage = () => {
                 "topic":"A song about water bottles",
                 "tags": "pop"
               }).then((res) => {
-                console.log(res);
-                get("/api/getSong", 
-                  {
-                    "id": res.id
-                  }).then((res) => {
-                    console.log("GET SONG");
-                    console.log(res);
-                  })
+                const intervalId = setInterval(() => {
+                  get("/api/getSong", 
+                    {
+                      "id": res.id
+                    }).then((res) => {
+                      console.log("GET SONG");
+                      console.log(res); 
+                      console.log(res[0].status);
+                      if (res[0].status =="error" || res[0].status == "complete") {
+                        console.log("BREAK");
+                        clearInterval(intervalId);
+                        if (res[0].status == "complete") {
+                          navigate('/shleepy', {
+                            state: { song: res[0].audio_url}
+                          });
+                        }
+                      }
+                    });
+                }, 30000);
               })
         });
-      }}
-    > 
+      }}> 
       Request Data
     </button>
     </div>
