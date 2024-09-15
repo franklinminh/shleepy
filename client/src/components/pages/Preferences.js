@@ -165,6 +165,7 @@ const Preferences = () => {
             },
           }}
           onClick={() => {
+            console.log("usersound here", userSound);
             navigate("/loading", {
               state: { user_id: user_id, user_sound: userSound },
             });

@@ -10,7 +10,7 @@ import { get } from "../../utilities.js";
 const LoadingPage = () => {
   const location = useLocation();
   const user_id = location.state.user_id;
-  const user_sound = location.state.userSound;
+  const user_sound = location.state.user_sound;
   const songQueue = [];
   var simulation;
 
@@ -24,7 +24,7 @@ const LoadingPage = () => {
         console.log(res);
         simulation = run_processing(res);
         console.log("Simulation", simulation);
-        prompts = generateMusicPrompts(simulation);
+        prompts = generateMusicPrompts(simulation, user_sound);
       });
       const songPromises = prompts.map((prompt, index) => requestSong(prompt));
       // Iterate through the prompts and request songs
