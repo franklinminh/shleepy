@@ -1,5 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+
+import ListItemText from "@mui/material/ListItemText";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -7,42 +12,36 @@ import "./MainPage.css";
 import GrassImage from "../modules/Grass.svg";
 import StarsImage from "../modules/Stars.svg";
 import MoonImage from "../modules/Moon.svg";
-// import SheepGIF from "../modules/SheepGIF.gif";
 import SheepGIF from "../modules/SlowerSheep.gif";
 import FenceImage from "../modules/Fence.svg";
 import SleepDataChart from "../modules/SleepDataChart";
 
-function sleepConversion (value) {
+function sleepConversion(value) {
   const stageLabels = {
     1: "Awake",
     4: "Light Sleep",
     5: "Deep Sleep",
     6: "REM Sleep",
-  }
+  };
   return stageLabels[value] || "";
 }
+
 const MainPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-
-  // location.state.song = "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3";
-
   const audioRef = useRef(null);
-
 
   const curIndex = useRef(1);
 
-  // array of 10 songs
   const songQueue = location.state.songQueue;
 
-  // sleep data
   const sleepData = location.state.sleepData;
 
   const [sleepState, setSleepState] = useState(sleepConversion(sleepData[0].stage));
 
   const [currentTrack, setCurrentTrack] = useState(songQueue[0]);
-  // Change the audio track every 10 seconds
+
   useEffect(() => {
     const trackChangeInterval = setInterval(() => {
       if (curIndex.current == 10) {
@@ -53,19 +52,18 @@ const MainPage = () => {
       setCurrentTrack((prevTrack) => {
         return newTrack; // Return the updated track
       });
+      console.log(songQueue, curIndex.current, "WHAT");
       console.log("INDEX", curIndex.current, sleepData[curIndex.current]);
       console.log(sleepData);
       console.log(currentTrack);
       console.log(sleepConversion(sleepData[curIndex.current].stage));
       setSleepState(sleepConversion(sleepData[curIndex.current].stage));
       curIndex.current = curIndex.current + 1;
+    }, 10000);
 
-    }, 1000);
-
-    return () => clearInterval(trackChangeInterval); // Clear interval on unmount
+    return () => clearInterval(trackChangeInterval);
   }, []);
 
-  ///Play the audio when the component mounts
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.load();
@@ -94,7 +92,71 @@ const MainPage = () => {
       >
         <div className="sky-left-flex">
           <img src={MoonImage} alt="Moon" className="moon-image" />
+
+          {/* Centered Title and Scrollable Song Queue */}
+          <div
+            style={{
+              marginTop: "0px",
+              width: "300px",
+              textAlign: "center", // Center the title and list
+              color: "white",
+              fontFamily: "Montserrat, sans-serif",
+            }}
+          >
+            <h3 className="u-fontMontserrat u-fontSemibold u-textYellow">queue</h3>
+            <List
+              className="scrollable-list" // Apply the class here
+              sx={{
+                height: "150px", // Set fixed height for scrolling
+                overflowY: "scroll", // Make it scrollable
+                backgroundColor: "rgba(255, 255, 255, 0.1)", // Slight transparent background
+                borderRadius: "10px",
+                padding: "10px",
+              }}
+            >
+              {songQueue.map((song, index) => (
+                <ListItem
+                  key={index}
+                  sx={{
+                    padding: "3px 0", // Reduce padding to decrease vertical spacing
+                    fontFamily: "Montserrat, sans-serif",
+                    fontSize: "0.2rem", // Smaller font size (14px)
+                    marginBottom: "0px", // Reduce the margin between list items
+                  }}
+                >
+                  {/* Star bullet or numbering */}
+                  <span
+                    style={{ marginRight: "10px", color: "var(--yellow)", fontSize: "0.875rem" }}
+                  >
+                    ★
+                  </span>
+
+                  {/* Song Name as a Hyperlink */}
+                  <a
+                    href={song}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: "inherit", textDecoration: "none" }}
+                  >
+                    <ListItemText primary={song} />
+                  </a>
+
+                  {/* Open in new tab icon as a clickable link */}
+                  <a href={song} target="_blank" rel="noopener noreferrer">
+                    <OpenInNewIcon
+                      sx={{
+                        color: "var(--yellow)", // Adjust color of the icon
+                        marginLeft: "10px", // Add some space before the icon
+                        fontSize: "1.2rem", // Adjust size of the icon
+                      }}
+                    />
+                  </a>
+                </ListItem>
+              ))}
+            </List>
+          </div>
         </div>
+
         <div className="sky-middle-flex">
           <h1 className="u-fontMontserrat u-fontSemibold u-textWhite">shleepy</h1>
           <div className="u-smallMarginBottom">
@@ -102,7 +164,9 @@ const MainPage = () => {
               <source src={currentTrack} type="audio/mpeg" />
             </audio>
           </div>
-          <SleepDataChart sleepData={sleepData} />
+          <div className="chart-container">
+            <SleepDataChart sleepData={sleepData} />
+          </div>
         </div>
         <div className="sky-right-flex">
           <Button
