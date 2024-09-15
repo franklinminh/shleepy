@@ -23,10 +23,21 @@ const LandingPage = () => {
           backgroundRepeat: "repeat-x",
         }}
       >
-        <h1 className="u-fontMontserrat u-fontSemibold u-textWhite u-noMargin">shleepy</h1>
-        <h3 className="u-fontMontserrat u-fontRegular u-textWhite u-smallMarginTop">
+        <h1 className="u-fontMontserrat u-fontSemibold u-textWhite u-smallMarginBottom u-textCenter">
+          shleepy
+        </h1>
+        <h3 className="u-fontMontserrat u-fontRegular u-textWhite u-noMargin u-textCenter">
           no more counting sheep, just shleep to the beat ♬
         </h3>
+        <h5
+          className="u-fontMontserrat u-fontMedium u-textWhite u-textCenter u-smallMarginTop u-fontItalic"
+          y
+        >
+          Our platform uses your wearable data <br />
+          combined with generative AI to <br />
+          create personalized music tailored
+          <br /> to your unique shleep needs.
+        </h5>
         <Button
           variant="contained"
           sx={{

@@ -108,8 +108,8 @@ form {
   font-weight: 400;
 }
 
-.u-noMargin {
-  margin: 0;
+.u-fontMedium {
+  font-weight: 300;
 }
 
 .u-smallMarginTop {
@@ -120,6 +120,14 @@ form {
   margin-bottom: 10px;
 }
 
+.u-noMargin {
+  margin: 0px;
+}
+
 .u-textYellow {
   color: var(--yellow);
+}
+
+.u-fontItalic {
+  font-style: italic;
 }
