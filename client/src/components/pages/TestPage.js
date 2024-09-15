@@ -42,8 +42,8 @@ const TestPage = () => {
     </button>
     <button
       onClick={() => {
-        get("/api/getData").then((res) => {
-          console.log(res);
+        navigate('/shleep', {
+          state: { song: "https://cdn1.suno.ai/d32646c9-a462-4b2c-a81b-61b54489efad.mp3"}
         });
       }}
     > 

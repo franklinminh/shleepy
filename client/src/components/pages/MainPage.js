@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
+import {useLocation } from "react-router-dom";
 import "./MainPage.css";
 import GrassImage from "../modules/Grass.svg";
 import StarsImage from "../modules/Stars.svg";
@@ -13,6 +14,10 @@ import FenceImage from "../modules/Fence.svg";
 
 const MainPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log("AAAAAAAH");
+  console.log(location.state?.song);
+
 
   const fenceVariants = {
     animate: {
@@ -22,6 +27,9 @@ const MainPage = () => {
 
   return (
     <div className="background-purple">
+      <audio autoPlay loop>
+        <source src={location.state?.song} type="audio/mpeg"/>
+      </audio>
       <div
         className="sky-flex"
         style={{

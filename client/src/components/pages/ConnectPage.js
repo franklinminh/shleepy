@@ -30,8 +30,8 @@ const ConnectPage = () => {
           // process data, get parameters for generation
           get("/api/requestSong", 
               {
-                "topic":"A song about water bottles",
-                "tags": "pop"
+                "topic":"A peaceful Minecraft song for sleeping with no vocals",
+                "tags": "ambient, instrumental"
               }).then((res) => {
                 const intervalId = setInterval(() => {
                   get("/api/getSong", 
@@ -45,7 +45,7 @@ const ConnectPage = () => {
                         console.log("BREAK");
                         clearInterval(intervalId);
                         if (res[0].status == "complete") {
-                          navigate('/shleepy', {
+                          navigate('/shleep', {
                             state: { song: res[0].audio_url}
                           });
                         }

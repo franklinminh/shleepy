@@ -88,10 +88,11 @@ router.get("/getData", (req, res) => {
   const oneWeekBefore = new Date();
   // Subtract 7 days from the current date
   oneWeekBefore.setDate(currentDate.getDate() - 7);
-  terra
-  .getSleep({ userId: user_id, startDate: oneWeekBefore, endDate: currentDate, toWebhook: false })
-  .then((p) => res.send(p))
-  .catch((e) => console.log(e.status, e.message));
+  // terra
+  // .getSleep({ userId: user_id, startDate: oneWeekBefore, endDate: currentDate, toWebhook: false })
+  // .then((p) => res.send(p))
+  // .catch((e) => console.log(e.status, e.message));
+  res.send({});
 });
 
 // Call this after processing, and getting the correct topic and tags
