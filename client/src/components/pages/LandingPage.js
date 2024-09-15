@@ -1,13 +1,18 @@
-import React from "react";
-import Button from "@mui/material/Button";
+import React, {useState, useEffect} from "react";
+import {Button, TextField} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import "./LandingPage.css";
 import StarsImage from "../modules/Stars.svg";
 
+import { get } from "../../utilities.js";
+
+import "../../utilities.css";
+
+
 const LandingPage = () => {
   const navigate = useNavigate();
-
+  const [referenceName, setReferenceName] = useState('');
   return (
     <div className="background-purple">
       <div
@@ -23,6 +28,14 @@ const LandingPage = () => {
         <h3 className="u-fontMontserrat u-fontRegular u-textWhite u-smallMarginTop">
           no more counting sheep, just shleep to the beat ♬
         </h3>
+        <TextField 
+          label="Reference Name" 
+          variant="outlined" 
+          value={referenceName}
+          onChange={(e) => setReferenceName(e.target.value)}
+          color="primary">
+        Hello World
+      </TextField>
         <Button
           variant="contained"
           sx={{
@@ -36,7 +49,9 @@ const LandingPage = () => {
             },
           }}
           onClick={() => {
-            navigate("/");
+            get("/api/generateWidgetSession", {reference: referenceName}).then((res) => {
+              window.location.href = res.url;
+            });
           }}
         >
           Connect Wearable

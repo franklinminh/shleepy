@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef, useEffect} from "react";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -15,9 +15,19 @@ import FenceImage from "../modules/Fence.svg";
 const MainPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("AAAAAAAH");
-  console.log(location.state?.song);
 
+  console.log(location.state?.song);
+  // const audioRef = useRef(null);
+
+  // Play the audio when the component mounts
+  // useEffect(() => {
+  //   if (audioRef.current) {
+  //     audioRef.current.muted = true;
+  //     audioRef.current.play().catch((error) => {
+  //         console.log("Autoplay failed due to browser restrictions:", error);
+  //     });
+  // }
+  // }, []);
 
   const fenceVariants = {
     animate: {
@@ -27,9 +37,7 @@ const MainPage = () => {
 
   return (
     <div className="background-purple">
-      <audio autoPlay loop>
-        <source src={location.state?.song} type="audio/mpeg"/>
-      </audio>
+
       <div
         className="sky-flex"
         style={{
@@ -92,6 +100,9 @@ const MainPage = () => {
           style={{ position: "absolute", bottom: 0, width: "150px" }}
         />
       </div>
+      <audio autoPlay loop>
+        <source src={location.state?.song} type="audio/mpeg"/>
+      </audio>
     </div>
   );
 };

@@ -73,7 +73,7 @@ router.get("/generateWidgetSession", (req, res) => {
   .generateWidgetSession({
     referenceID: referenceName,
     providers: ["MYFITNESSPAL", "APPLE", "GARMIN"],
-    authSuccessRedirectUrl: "http://localhost:5050/success",
+    authSuccessRedirectUrl: "http://localhost:5050/preferences",
     authFailureRedirectUrl: "failure.com",
     language: 'en'
   })

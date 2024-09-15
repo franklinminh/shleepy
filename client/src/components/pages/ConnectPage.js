@@ -2,9 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 import "../../utilities.css";
-import { useLocation } from 'react-router-dom';
 
-import { TextField, Button, Typography, Box } from "@mui/material";
 
 import { get } from "../../utilities.js";
 
