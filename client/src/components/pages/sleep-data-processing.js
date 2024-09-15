@@ -199,6 +199,32 @@ export function run_processing(jsonData) {
   const predictedStages = simulateSleepStagesWithDurations(initialStage, markovModel, steps);
   // console.log(predictedStages);
 
-  
   return predictedStages;
+}
+
+function generateMusicPrompts(predictedStageList) {
+  // Define prompts based on the stage
+  const stagePrompts = {
+    1: "calming meditative music for awake stage",
+    4: "calming music with minimal beats and slow classical tempo for light sleep, no lyrics",
+    5: "slow ambient tones or low-frequency droning for deep sleep, no lyrics",
+    6: "soft ethereal dream-like soundscape songs for REM sleep, no lyrics",
+  };
+
+  const stageTags = {
+    1: "calm, meditation",
+    4: "calm, slow, piano",
+    5: "ambient, tones",
+    6: "soft, ethereal",
+  };
+
+  // Map through the data array and create a list of prompts based on the stage
+  const musicPrompts = predictedStageList.map((item) => ({
+    stage: item.stage,
+    duration: item.duration,
+    prompt: stagePrompts[item.stage] || "music for sleep",
+    tags: stageTags[item.stage] || "",
+  }));
+  // console.log(musicPrompts);
+  return musicPrompts;
 }
