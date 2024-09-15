@@ -103,7 +103,9 @@ const MainPage = () => {
               fontFamily: "Montserrat, sans-serif",
             }}
           >
-            <h3 className="u-fontMontserrat u-fontSemibold u-textYellow">queue</h3>
+            <h3 className="u-fontMontserrat u-fontSemibold u-textYellow u-smallMarginBottom">
+              queue
+            </h3>
             <List
               className="scrollable-list" // Apply the class here
               sx={{
