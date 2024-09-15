@@ -11,6 +11,7 @@ import MoonImage from "../modules/Moon.svg";
 import SheepGIF from "../modules/SlowerSheep.gif";
 import FenceImage from "../modules/Fence.svg";
 import SleepDataChart from "../modules/SleepDataChart";
+import { track } from "framer-motion/client";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -19,11 +20,15 @@ const MainPage = () => {
 
   // location.state.song = "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3";
 
-
   const audioRef = useRef(null);
 
-  const [currentTrack, setCurrentTrack]= useState("https://cdn1.suno.ai/d32646c9-a462-4b2c-a81b-61b54489efad.mp3");
-  
+  const [currentTrack, setCurrentTrack] = useState(
+    "https://cdn1.suno.ai/d32646c9-a462-4b2c-a81b-61b54489efad.mp3"
+  );
+  // SONG QUEUE
+  const [songQueue, setSongQueue] = useState(location.state.songQueue || []);
+  console.log(songQueue);
+
   const curStageIndex = useRef(1);
 
   // SLEEP DATA HERE: ARRAY OF 10, with {stage: x, duration: y}
@@ -33,62 +38,71 @@ const MainPage = () => {
   // Change the audio track every 10 seconds
   useEffect(() => {
     const trackChangeInterval = setInterval(() => {
-      // done at 10th stage
-      if (curStageIndex.current == 10) {
-        clearInterval(trackChangeInterval);
+      if (songQueue.length > 0 && curStageIndex.current < songQueue.length) {
+        setCurrentTrack(songQueue[curStageIndex.current]);
+        curStageIndex.current = (curStageIndex.current + 1) % songQueue.length;
       }
-      var newTrack;
+    }, 10000);
+    console.log("current index", curStageIndex.current, sleepData.current[curStageIndex.current]);
 
-      // get track
-      console.log("RETRIEVING SONG", curStageIndex.current);
-      get("/api/requestSong", 
-        {
-          "topic":"Crazy hyperpop song",
-          "tags": "EDM, pop"
-        }).then((res) => {
-          const intervalId = setInterval(() => {
-            get("/api/getSong", 
-              {
-                "id": res.id
-              }).then((res) => {
-                console.log("LOADING SONG", curStageIndex.current);
-                console.log(res); 
-                console.log(res[0].status);
-                if (res[0].status =="error" || res[0].status == "complete") {
-                  console.log("BREAK");
-                  console.log("FINISH LOADING SONG", curStageIndex.current);
-                  clearInterval(intervalId);
-                  if (res[0].status == "complete") {
-                    newTrack = res[0].audio_url;
-                    setCurrentTrack((prevTrack) => {
-                      // const newTrack = "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3";
-                      return res; // Return the updated track
-                    });
-                  }
-                }
-              });
-          }, 10000);
-        });
-      setCurrentTrack((prevTrack) => {
-        // const newTrack = "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3";
-        
-        return newTrack; // Return the updated track
-      });
-      curStageIndex.current++;
-      console.log("current index", curStageIndex.current, sleepData.current[curStageIndex.current]);
-    }, 20000);
+    return () => clearInterval(trackChangeInterval);
+  }, [songQueue]);
+  // // done at 10th stage
+  // if (curStageIndex.current == 10) {
+  //   clearInterval(trackChangeInterval);
+  // }
+  // var newTrack;
 
-    return () => clearInterval(trackChangeInterval); // Clear interval on unmount
-  }, []);
+  // get track
+  // console.log("RETRIEVING SONG", curStageIndex.current);
+  // get("/api/requestSong",
+  //   {
+  //     "topic":"Crazy hyperpop song",
+  //     "tags": "EDM, pop"
+  //   }).then((res) => {
+  //     const intervalId = setInterval(() => {
+  //       get("/api/getSong",
+  //         {
+  //           "id": res.id
+  //         }).then((res) => {
+  //           console.log("LOADING SONG", curStageIndex.current);
+  //           console.log(res);
+  //           console.log(res[0].status);
+  //           if (res[0].status =="error" || res[0].status == "complete") {
+  //             console.log("BREAK");
+  //             console.log("FINISH LOADING SONG", curStageIndex.current);
+  //             clearInterval(intervalId);
+  //             if (res[0].status == "complete") {
+  //               newTrack = res[0].audio_url;
+  //               setCurrentTrack((prevTrack) => {
+  //                 // const newTrack = "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3";
+  //                 return res; // Return the updated track
+  //               });
+  //             }
+  //           }
+  //         });
+  //     }, 10000);
+  //   });
+  // setCurrentTrack((prevTrack) => {
+  //   // const newTrack = "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3";
+
+  //   return newTrack; // Return the updated track
+  // });
+  // curStageIndex.current++;
+  // console.log("current index", curStageIndex.current, sleepData.current[curStageIndex.current]);
+  // }, 10000);
+
+  // return () => clearInterval(trackChangeInterval); // Clear interval on unmount
+  // }, []);
 
   ///Play the audio when the component mounts
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.load();
       audioRef.current.play().catch((error) => {
-          console.log("Autoplay failed due to browser restrictions:", error);
+        console.log("Autoplay failed due to browser restrictions:", error);
       });
-  }
+    }
   }, [currentTrack]);
 
   const fenceVariants = {

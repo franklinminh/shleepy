@@ -202,7 +202,7 @@ export function run_processing(jsonData) {
   return predictedStages;
 }
 
-function generateMusicPrompts(predictedStageList) {
+export function generateMusicPrompts(predictedStageList) {
   // Define prompts based on the stage
   const stagePrompts = {
     1: "calming meditative music for awake stage",
@@ -222,7 +222,7 @@ function generateMusicPrompts(predictedStageList) {
   const musicPrompts = predictedStageList.map((item) => ({
     stage: item.stage,
     duration: item.duration,
-    prompt: stagePrompts[item.stage] || "music for sleep",
+    topic: stagePrompts[item.stage] || "music for sleep",
     tags: stageTags[item.stage] || "",
   }));
   // console.log(musicPrompts);
