@@ -27,15 +27,6 @@ const LandingPage = () => {
         <h3 className="u-fontMontserrat u-fontRegular u-textWhite u-smallMarginTop">
           no more counting sheep, just shleep to the beat ♬
         </h3>
-        <TextField
-          label="Reference Name"
-          variant="outlined"
-          value={referenceName}
-          onChange={(e) => setReferenceName(e.target.value)}
-          color="primary"
-        >
-          Hello World
-        </TextField>
         <Button
           variant="contained"
           sx={{
