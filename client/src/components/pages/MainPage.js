@@ -1,9 +1,8 @@
 import React, {useRef, useEffect, useState} from "react";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
-import {useLocation } from "react-router-dom";
 import "./MainPage.css";
 import GrassImage from "../modules/Grass.svg";
 import StarsImage from "../modules/Stars.svg";
@@ -14,9 +13,11 @@ import FenceImage from "../modules/Fence.svg";
 
 const MainPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   // const location = useLocation();
 
   // location.state.song = "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3";
+
 
   const audioRef = useRef(null);
 
@@ -24,6 +25,9 @@ const MainPage = () => {
   
   const crazy = useRef(true);
 
+  // SLEEP DATA HERE: ARRAY OF 10, with {stage: x, duration: y}
+  const sleepData = location.state.sleep_data;
+  console.log(sleepData);
   // Change the audio track every 10 seconds
   useEffect(() => {
     const trackChangeInterval = setInterval(() => {
