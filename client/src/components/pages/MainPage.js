@@ -61,7 +61,9 @@ const MainPage = () => {
       curIndex.current = curIndex.current + 1;
     }, 10000);
 
-    return () => clearInterval(trackChangeInterval);
+    }, 10000);
+
+    return () => clearInterval(trackChangeInterval); // Clear interval on unmount
   }, []);
 
   useEffect(() => {
