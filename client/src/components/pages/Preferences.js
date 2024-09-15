@@ -4,7 +4,6 @@ import { Switch, FormControlLabel, Box, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import { get } from "../../utilities.js";
-import "./Preferences.css";
 import StarsImage from "../modules/Stars.svg";
 
 const Preferences = () => {
@@ -37,7 +36,6 @@ const Preferences = () => {
           what have you been
           <br /> experiencing lately?
         </h1>
-        {/* Switches in Column */}
         <Box
           display="flex"
           flexDirection="column"
@@ -127,25 +125,20 @@ const Preferences = () => {
           sx={{
             marginBottom: "40px",
             marginTop: "0px",
-            width: "auto", // Auto width to fit content
-            minWidth: "380px", // Optional: Set a minimum width for the input field
-            // Default label color to white
+            width: "auto",
+            minWidth: "380px",
             "& .MuiInputLabel-root": {
               color: "white",
             },
-            // Label color changes to yellow when focused
             "& .MuiInputLabel-root.Mui-focused": {
-              color: "var(--yellow)", // Assuming var(--yellow) is defined in your CSS
+              color: "var(--yellow)",
             },
-            // Default border color to white
             "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
               borderColor: "white",
             },
-            // Border color changes to yellow when focused
             "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
               borderColor: "var(--yellow)",
             },
-            // Change the input text color to white
             "& .MuiInputBase-input": {
               color: "white",
             },
