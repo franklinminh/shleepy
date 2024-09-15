@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -10,6 +10,7 @@ import MoonImage from "../modules/Moon.svg";
 // import SheepGIF from "../modules/SheepGIF.gif";
 import SheepGIF from "../modules/SlowerSheep.gif";
 import FenceImage from "../modules/Fence.svg";
+import SleepDataChart from "../modules/SleepDataChart";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -18,11 +19,10 @@ const MainPage = () => {
 
   // location.state.song = "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3";
 
-
   const audioRef = useRef(null);
 
-  const [currentTrack, setCurrentTrack]= useState("");
-  
+  const [currentTrack, setCurrentTrack] = useState("");
+
   const crazy = useRef(true);
 
   // SLEEP DATA HERE: ARRAY OF 10, with {stage: x, duration: y}
@@ -31,7 +31,7 @@ const MainPage = () => {
   // Change the audio track every 10 seconds
   useEffect(() => {
     const trackChangeInterval = setInterval(() => {
-      crazy.current = !(crazy.current)
+      crazy.current = !crazy.current;
       setCurrentTrack((prevTrack) => {
         const newTrack = crazy.current
           ? "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3"
@@ -49,9 +49,9 @@ const MainPage = () => {
     if (audioRef.current) {
       audioRef.current.load();
       audioRef.current.play().catch((error) => {
-          console.log("Autoplay failed due to browser restrictions:", error);
+        console.log("Autoplay failed due to browser restrictions:", error);
       });
-  }
+    }
   }, [currentTrack]);
 
   const fenceVariants = {
@@ -62,7 +62,6 @@ const MainPage = () => {
 
   return (
     <div className="background-purple">
-
       <div
         className="sky-flex"
         style={{
@@ -77,6 +76,12 @@ const MainPage = () => {
         </div>
         <div className="sky-middle-flex">
           <h1 className="u-fontMontserrat u-fontSemibold u-textWhite">shleepy</h1>
+          <div className="u-smallMarginBottom">
+            <audio autoPlay loop controls ref={audioRef}>
+              <source src={currentTrack} type="audio/mpeg" />
+            </audio>
+          </div>
+          <SleepDataChart sleepData={sleepData} />
         </div>
         <div className="sky-right-flex">
           <Button
@@ -125,9 +130,6 @@ const MainPage = () => {
           style={{ position: "absolute", bottom: 0, width: "150px" }}
         />
       </div>
-      <audio autoPlay loop controls ref ={audioRef}>
-        <source src={currentTrack} type="audio/mpeg"/>
-      </audio>
     </div>
   );
 };
