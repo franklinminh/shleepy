@@ -26,7 +26,7 @@ const SleepDataChart = ({ sleepData }) => {
   const timePoints = cumulativeTime.map((data) => secondsToHours(data.time)); // Convert cumulative time from seconds to hours
 
   const stages = cumulativeTime.map((data) => {
-    if (data.stage === 1) return 1;
+    if (data.stage == 1) return 1;
     return data.stage - 2;
   });
 

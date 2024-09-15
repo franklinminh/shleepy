@@ -29,7 +29,6 @@ const socketManager = require("./server-socket");
 
 const terra = new Terra(DEV_ID, API_KEY, SECRET);
 
-
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
 router.get("/whoami", (req, res) => {
@@ -52,32 +51,31 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
-
 router.get("/getProviders", (req, res) => {
-  terra.getProviders().then((p) => {res.send(p)});
+  terra.getProviders().then((p) => {
+    res.send(p);
+  });
 });
 
 router.get("/getUsers", (req, res) => {
-  terra
-  .getUsers()
-  .then((p) => {
-  	res.send(p);
-	});
+  terra.getUsers().then((p) => {
+    res.send(p);
+  });
 });
 
 router.get("/generateWidgetSession", (req, res) => {
   const referenceName = req.query.reference;
   terra
-  .generateWidgetSession({
-    referenceID: referenceName,
-    providers: ["MYFITNESSPAL", "APPLE", "GARMIN"],
-    authSuccessRedirectUrl: "http://localhost:5050/preferences",
-    authFailureRedirectUrl: "failure.com",
-    language: 'en'
-  })
-  .then((s) => {
-    res.send(s);
-  });
+    .generateWidgetSession({
+      referenceID: referenceName,
+      providers: ["MYFITNESSPAL", "APPLE", "GARMIN"],
+      authSuccessRedirectUrl: "shleepy.onrender.com/preferences",
+      authFailureRedirectUrl: "failure.com",
+      language: "en",
+    })
+    .then((s) => {
+      res.send(s);
+    });
 });
 
 router.get("/getData", (req, res) => {
@@ -87,38 +85,39 @@ router.get("/getData", (req, res) => {
   // Subtract 7 days from the current date
   oneWeekBefore.setDate(currentDate.getDate() - 7);
   terra
-  .getSleep({ userId: user_id, startDate: oneWeekBefore, endDate: currentDate, toWebhook: false })
-  .then((p) => res.send(p))
-  .catch((e) => console.log(e.status, e.message));
+    .getSleep({ userId: user_id, startDate: oneWeekBefore, endDate: currentDate, toWebhook: false })
+    .then((p) => res.send(p))
+    .catch((e) => console.log(e.status, e.message));
 });
 
 // Call this after processing, and getting the correct topic and tags
 router.get("/requestSong", async (req, res) => {
   const topic = req.query.topic;
   const tags = req.query.tags;
-  const response = await fetch('https://studio-api.suno.ai/api/external/generate/', {
-    method: 'POST',
+  const response = await fetch("https://studio-api.suno.ai/api/external/generate/", {
+    method: "POST",
     headers: {
-      'accept': '/',
-      'accept-language': 'en-US,en;q=0.9',
-      'affiliate-id': 'undefined',
-      'authorization': `Bearer TIO0M93F13oYbcLXusM5nzBwf8o65er2`,
-      'content-type': 'text/plain;charset=UTF-8',
-      'origin': 'https://suno.com/',
-      'priority': 'u=1, i',
-      'referer': 'https://suno.com/',
-      'sec-ch-ua': '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
-      'sec-ch-ua-mobile': '?0',
-      'sec-ch-ua-platform': '"macOS"',
-      'sec-fetch-dest': 'empty',
-      'sec-fetch-mode': 'cors',
-      'sec-fetch-site': 'cross-site',
-      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+      accept: "/",
+      "accept-language": "en-US,en;q=0.9",
+      "affiliate-id": "undefined",
+      authorization: `Bearer TIO0M93F13oYbcLXusM5nzBwf8o65er2`,
+      "content-type": "text/plain;charset=UTF-8",
+      origin: "https://suno.com/",
+      priority: "u=1, i",
+      referer: "https://suno.com/",
+      "sec-ch-ua": '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": '"macOS"',
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "cross-site",
+      "user-agent":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
     },
     body: JSON.stringify({
       topic: topic,
-      tags: tags
-    })
+      tags: tags,
+    }),
   });
   const data = await response.json();
   res.send(data);
@@ -127,26 +126,27 @@ router.get("/requestSong", async (req, res) => {
 // Call this after request song
 router.get("/getSong", async (req, res) => {
   const id = req.query.id;
-  const url = 'https://studio-api.suno.ai/api/external/clips/?ids=' + id;
+  const url = "https://studio-api.suno.ai/api/external/clips/?ids=" + id;
   const response = await fetch(url, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'accept': '/',
-      'accept-language': 'en-US,en;q=0.9',
-      'affiliate-id': 'undefined',
-      'authorization': `Bearer TIO0M93F13oYbcLXusM5nzBwf8o65er2`,
-      'content-type': 'text/plain;charset=UTF-8',
-      'origin': 'https://suno.com/',
-      'priority': 'u=1, i',
-      'referer': 'https://suno.com/',
-      'sec-ch-ua': '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
-      'sec-ch-ua-mobile': '?0',
-      'sec-ch-ua-platform': '"macOS"',
-      'sec-fetch-dest': 'empty',
-      'sec-fetch-mode': 'cors',
-      'sec-fetch-site': 'cross-site',
-      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
-    }
+      accept: "/",
+      "accept-language": "en-US,en;q=0.9",
+      "affiliate-id": "undefined",
+      authorization: `Bearer TIO0M93F13oYbcLXusM5nzBwf8o65er2`,
+      "content-type": "text/plain;charset=UTF-8",
+      origin: "https://suno.com/",
+      priority: "u=1, i",
+      referer: "https://suno.com/",
+      "sec-ch-ua": '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": '"macOS"',
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "cross-site",
+      "user-agent":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+    },
   });
   const data = await response.json();
   res.send(data);
