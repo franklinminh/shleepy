@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -10,7 +10,7 @@ import MoonImage from "../modules/Moon.svg";
 // import SheepGIF from "../modules/SheepGIF.gif";
 import SheepGIF from "../modules/SlowerSheep.gif";
 import FenceImage from "../modules/Fence.svg";
-import { get } from "../../utilities.js";
+import SleepDataChart from "../modules/SleepDataChart";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -99,7 +99,6 @@ const MainPage = () => {
 
   return (
     <div className="background-purple">
-
       <div
         className="sky-flex"
         style={{
@@ -114,6 +113,12 @@ const MainPage = () => {
         </div>
         <div className="sky-middle-flex">
           <h1 className="u-fontMontserrat u-fontSemibold u-textWhite">shleepy</h1>
+          <div className="u-smallMarginBottom">
+            <audio autoPlay loop controls ref={audioRef}>
+              <source src={currentTrack} type="audio/mpeg" />
+            </audio>
+          </div>
+          <SleepDataChart sleepData={sleepData.current} />
         </div>
         <div className="sky-right-flex">
           <Button
@@ -134,6 +139,12 @@ const MainPage = () => {
           >
             End Session
           </Button>
+          <h4
+            className="u-fontMontserrat u-fontSemibold u-textYellow u-noMargins"
+            style={{ marginTop: "7px" }}
+          >
+            currently simulating: awake
+          </h4>
         </div>
       </div>
       <div
@@ -162,9 +173,6 @@ const MainPage = () => {
           style={{ position: "absolute", bottom: 0, width: "150px" }}
         />
       </div>
-      <audio autoPlay loop controls ref ={audioRef}>
-        <source src={currentTrack} type="audio/mpeg"/>
-      </audio>
     </div>
   );
 };
