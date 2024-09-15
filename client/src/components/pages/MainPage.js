@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -10,6 +10,7 @@ import MoonImage from "../modules/Moon.svg";
 // import SheepGIF from "../modules/SheepGIF.gif";
 import SheepGIF from "../modules/SlowerSheep.gif";
 import FenceImage from "../modules/Fence.svg";
+import SleepDataChart from "../modules/SleepDataChart";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -21,25 +22,61 @@ const MainPage = () => {
 
   const audioRef = useRef(null);
 
-  const [currentTrack, setCurrentTrack]= useState("");
+  const [currentTrack, setCurrentTrack]= useState("https://cdn1.suno.ai/d32646c9-a462-4b2c-a81b-61b54489efad.mp3");
   
-  const crazy = useRef(true);
+  const curStageIndex = useRef(1);
 
   // SLEEP DATA HERE: ARRAY OF 10, with {stage: x, duration: y}
-  const sleepData = location.state.sleep_data;
-  console.log(sleepData);
+  const sleepData = useRef(location.state.sleep_data);
+
+  console.log("SLEEP DATA", sleepData.current);
   // Change the audio track every 10 seconds
   useEffect(() => {
     const trackChangeInterval = setInterval(() => {
-      crazy.current = !(crazy.current)
+      // done at 10th stage
+      if (curStageIndex.current == 10) {
+        clearInterval(trackChangeInterval);
+      }
+      var newTrack;
+
+      // get track
+      console.log("RETRIEVING SONG", curStageIndex.current);
+      get("/api/requestSong", 
+        {
+          "topic":"Crazy hyperpop song",
+          "tags": "EDM, pop"
+        }).then((res) => {
+          const intervalId = setInterval(() => {
+            get("/api/getSong", 
+              {
+                "id": res.id
+              }).then((res) => {
+                console.log("LOADING SONG", curStageIndex.current);
+                console.log(res); 
+                console.log(res[0].status);
+                if (res[0].status =="error" || res[0].status == "complete") {
+                  console.log("BREAK");
+                  console.log("FINISH LOADING SONG", curStageIndex.current);
+                  clearInterval(intervalId);
+                  if (res[0].status == "complete") {
+                    newTrack = res[0].audio_url;
+                    setCurrentTrack((prevTrack) => {
+                      // const newTrack = "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3";
+                      return res; // Return the updated track
+                    });
+                  }
+                }
+              });
+          }, 10000);
+        });
       setCurrentTrack((prevTrack) => {
-        const newTrack = crazy.current
-          ? "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3"
-          : "https://cdn1.suno.ai/d32646c9-a462-4b2c-a81b-61b54489efad.mp3";
-        console.log("SWAP", newTrack, crazy);
+        // const newTrack = "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3";
+        
         return newTrack; // Return the updated track
       });
-    }, 10000);
+      curStageIndex.current++;
+      console.log("current index", curStageIndex.current, sleepData.current[curStageIndex.current]);
+    }, 20000);
 
     return () => clearInterval(trackChangeInterval); // Clear interval on unmount
   }, []);
@@ -62,7 +99,6 @@ const MainPage = () => {
 
   return (
     <div className="background-purple">
-
       <div
         className="sky-flex"
         style={{
@@ -77,6 +113,12 @@ const MainPage = () => {
         </div>
         <div className="sky-middle-flex">
           <h1 className="u-fontMontserrat u-fontSemibold u-textWhite">shleepy</h1>
+          <div className="u-smallMarginBottom">
+            <audio autoPlay loop controls ref={audioRef}>
+              <source src={currentTrack} type="audio/mpeg" />
+            </audio>
+          </div>
+          <SleepDataChart sleepData={sleepData.current} />
         </div>
         <div className="sky-right-flex">
           <Button
@@ -97,6 +139,12 @@ const MainPage = () => {
           >
             End Session
           </Button>
+          <h4
+            className="u-fontMontserrat u-fontSemibold u-textYellow u-noMargins"
+            style={{ marginTop: "7px" }}
+          >
+            currently simulating: awake
+          </h4>
         </div>
       </div>
       <div
@@ -125,9 +173,6 @@ const MainPage = () => {
           style={{ position: "absolute", bottom: 0, width: "150px" }}
         />
       </div>
-      <audio autoPlay loop controls ref ={audioRef}>
-        <source src={currentTrack} type="audio/mpeg"/>
-      </audio>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import { Switch, FormControlLabel, Box } from "@mui/material";
+import { Switch, FormControlLabel, Box, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import { get } from "../../utilities.js";
@@ -11,7 +11,7 @@ import StarsImage from "../modules/Stars.svg";
 const Preferences = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
-
+  const [userSound, setUserSound] = useState("");
   const user_id = queryParams.get('user_id');
   const [switches, setSwitches] = useState({
     stress: false,
@@ -38,7 +38,6 @@ const Preferences = () => {
           what have you been
           <br /> experiencing lately?
         </h1>
-
         {/* Switches in Column */}
         <Box
           display="flex"
@@ -120,7 +119,19 @@ const Preferences = () => {
             }}
           />
         </Box>
-
+        <h1 className="u-fontMontserrat u-fontSemibold u-textWhite">
+          How do you want your music to sound?
+          <br />
+        </h1>
+        <TextField
+          label="Sound Descriptors"
+          variant="outlined"
+          value={userSound}
+          onChange={(e) => setUserSound(e.target.value)}
+          color="primary"
+        >
+          Sound prompt
+        </TextField>
         <Button
           variant="contained"
           sx={{
@@ -135,7 +146,7 @@ const Preferences = () => {
           }}
           onClick={() => {
             navigate('/loading', {
-              state: {user_id: user_id}
+              state: {user_id: user_id, user_sound: userSound}
             })
           }}>
           Start Shleeping

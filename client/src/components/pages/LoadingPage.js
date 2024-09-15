@@ -45,6 +45,8 @@ import { get } from "../../utilities.js";
 const LoadingPage = () => {
   const location = useLocation();
   const user_id = location.state.user_id;
+  const user_sound = location.state.userSound;
+  console.log("USER SOUND", user_sound);
   const navigate = useNavigate();
   useEffect(() => {
       // get data
@@ -71,7 +73,7 @@ const LoadingPage = () => {
                       clearInterval(intervalId);
                       if (res[0].status == "complete") {
                         navigate('/shleep', {
-                          state: { song: res[0].audio_url, sleep_data: simulation}
+                          state: { song: res[0].audio_url, sleep_data: simulation, user_sound: user_sound}
                         });
                       }
                     }
