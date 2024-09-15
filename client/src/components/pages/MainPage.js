@@ -60,9 +60,6 @@ const MainPage = () => {
       setSleepState(sleepConversion(sleepData[curIndex.current].stage));
       curIndex.current = curIndex.current + 1;
     }, 10000);
-
-    }, 10000);
-
     return () => clearInterval(trackChangeInterval); // Clear interval on unmount
   }, []);
 
