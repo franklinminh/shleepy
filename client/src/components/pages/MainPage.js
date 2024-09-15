@@ -12,71 +12,55 @@ import SheepGIF from "../modules/SlowerSheep.gif";
 import FenceImage from "../modules/Fence.svg";
 import SleepDataChart from "../modules/SleepDataChart";
 
+function sleepConversion (value) {
+  const stageLabels = {
+    1: "Awake",
+    4: "Light Sleep",
+    5: "Deep Sleep",
+    6: "REM Sleep",
+  }
+  return stageLabels[value] || "";
+}
 const MainPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  // const location = useLocation();
+
 
   // location.state.song = "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3";
 
-
   const audioRef = useRef(null);
 
-  const [currentTrack, setCurrentTrack]= useState("https://cdn1.suno.ai/d32646c9-a462-4b2c-a81b-61b54489efad.mp3");
-  
-  const curStageIndex = useRef(1);
 
-  // SLEEP DATA HERE: ARRAY OF 10, with {stage: x, duration: y}
-  const sleepData = useRef(location.state.sleep_data);
+  const curIndex = useRef(1);
 
-  console.log("SLEEP DATA", sleepData.current);
+  // array of 10 songs
+  const songQueue = location.state.songQueue;
+
+  // sleep data
+  const sleepData = location.state.sleepData;
+
+  const [sleepState, setSleepState] = useState(sleepConversion(sleepData[0].stage));
+
+  const [currentTrack, setCurrentTrack] = useState(songQueue[0]);
   // Change the audio track every 10 seconds
   useEffect(() => {
     const trackChangeInterval = setInterval(() => {
-      // done at 10th stage
-      if (curStageIndex.current == 10) {
+      if (curIndex.current == 10) {
         clearInterval(trackChangeInterval);
+        return;
       }
-      var newTrack;
-
-      // get track
-      console.log("RETRIEVING SONG", curStageIndex.current);
-      get("/api/requestSong", 
-        {
-          "topic":"Crazy hyperpop song",
-          "tags": "EDM, pop"
-        }).then((res) => {
-          const intervalId = setInterval(() => {
-            get("/api/getSong", 
-              {
-                "id": res.id
-              }).then((res) => {
-                console.log("LOADING SONG", curStageIndex.current);
-                console.log(res); 
-                console.log(res[0].status);
-                if (res[0].status =="error" || res[0].status == "complete") {
-                  console.log("BREAK");
-                  console.log("FINISH LOADING SONG", curStageIndex.current);
-                  clearInterval(intervalId);
-                  if (res[0].status == "complete") {
-                    newTrack = res[0].audio_url;
-                    setCurrentTrack((prevTrack) => {
-                      // const newTrack = "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3";
-                      return res; // Return the updated track
-                    });
-                  }
-                }
-              });
-          }, 10000);
-        });
+      const newTrack = songQueue[curIndex.current];
       setCurrentTrack((prevTrack) => {
-        // const newTrack = "https://cdn1.suno.ai/1efb2e44-77ed-46ee-8e46-9c7bcdcadc9c.mp3";
-        
         return newTrack; // Return the updated track
       });
-      curStageIndex.current++;
-      console.log("current index", curStageIndex.current, sleepData.current[curStageIndex.current]);
-    }, 20000);
+      console.log("INDEX", curIndex.current, sleepData[curIndex.current]);
+      console.log(sleepData);
+      console.log(currentTrack);
+      console.log(sleepConversion(sleepData[curIndex.current].stage));
+      setSleepState(sleepConversion(sleepData[curIndex.current].stage));
+      curIndex.current = curIndex.current + 1;
+
+    }, 1000);
 
     return () => clearInterval(trackChangeInterval); // Clear interval on unmount
   }, []);
@@ -86,9 +70,9 @@ const MainPage = () => {
     if (audioRef.current) {
       audioRef.current.load();
       audioRef.current.play().catch((error) => {
-          console.log("Autoplay failed due to browser restrictions:", error);
+        console.log("Autoplay failed due to browser restrictions:", error);
       });
-  }
+    }
   }, [currentTrack]);
 
   const fenceVariants = {
@@ -118,7 +102,7 @@ const MainPage = () => {
               <source src={currentTrack} type="audio/mpeg" />
             </audio>
           </div>
-          <SleepDataChart sleepData={sleepData.current} />
+          <SleepDataChart sleepData={sleepData} />
         </div>
         <div className="sky-right-flex">
           <Button
@@ -143,7 +127,7 @@ const MainPage = () => {
             className="u-fontMontserrat u-fontSemibold u-textYellow u-noMargins"
             style={{ marginTop: "7px" }}
           >
-            currently simulating: awake
+            currently simulating: {sleepState}
           </h4>
         </div>
       </div>
