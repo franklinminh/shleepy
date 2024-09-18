@@ -4,18 +4,13 @@ const SECRET = "aa24214b6dc9365a365faa07436bf40329dfc0320374dcc6";
 
 const express = require("express");
 
-// import models so we can interact with the database
 const User = require("./models/user");
-// Importing the API and instantiating the client using your keys
 const { default: Terra } = require("terra-api");
 
-// import authentication library
 const auth = require("./auth");
 
-// api endpoints: all these paths will be prefixed with "/api/"
 const router = express.Router();
 
-//initialize socket
 const socketManager = require("./server-socket");
 
 const terra = new Terra(DEV_ID, API_KEY, SECRET);
@@ -32,15 +27,10 @@ router.get("/whoami", (req, res) => {
 });
 
 router.post("/initsocket", (req, res) => {
-  // do nothing if user not logged in
   if (req.user)
     socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
   res.send({});
 });
-
-// |------------------------------|
-// | write your API methods below!|
-// |------------------------------|
 
 router.get("/getProviders", (req, res) => {
   terra.getProviders().then((p) => {
@@ -124,7 +114,7 @@ router.get("/getSong", async (req, res) => {
       accept: "/",
       "accept-language": "en-US,en;q=0.9",
       "affiliate-id": "undefined",
-      authorization: `Bearer TIO0M93F13oYbcLXusM5nzBwf8o65er2`,
+      authorization: `Bearer FJl7jwuuSKM12vdPdDdAmpcsfCQKOQW4`,
       "content-type": "text/plain;charset=UTF-8",
       origin: "https://suno.com/",
       priority: "u=1, i",
