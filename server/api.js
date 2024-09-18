@@ -81,7 +81,9 @@ router.get("/requestSong", async (req, res) => {
       accept: "/",
       "accept-language": "en-US,en;q=0.9",
       "affiliate-id": "undefined",
-      authorization: `Bearer TIO0M93F13oYbcLXusM5nzBwf8o65er2`,
+      authorization: `Bearer FJl7jwuuSKM12vdPdDdAmpcsfCQKOQW4`,
+
+      // authorization: `Bearer TIO0M93F13oYbcLXusM5nzBwf8o65er2`,
       "content-type": "text/plain;charset=UTF-8",
       origin: "https://suno.com/",
       priority: "u=1, i",
@@ -114,6 +116,7 @@ router.get("/getSong", async (req, res) => {
       accept: "/",
       "accept-language": "en-US,en;q=0.9",
       "affiliate-id": "undefined",
+      // authorization: `Bearer TIO0M93F13oYbcLXusM5nzBwf8o65er2`,
       authorization: `Bearer FJl7jwuuSKM12vdPdDdAmpcsfCQKOQW4`,
       "content-type": "text/plain;charset=UTF-8",
       origin: "https://suno.com/",
